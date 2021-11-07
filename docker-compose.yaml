@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    container_name: nest-code-micro-videos
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+    command: >
+      sh -c "npm i && npm run start:dev"
+    links:
+      - db
+  
+  db:
+    image: mongo:5.0.3
+    container_name: nest-bank-db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=nest
+    ports:
+      - "27017:27017"
