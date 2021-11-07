@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CategoriesRepository } from './repository/categories.repository';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+
+  constructor(
+    private repository: CategoriesRepository
+  ) {}
+
+  public async create(createCategoryDto: CreateCategoryDto) {
+    return await this.repository.create(createCategoryDto);
   }
 
   findAll() {
@@ -20,7 +27,13 @@ export class CategoriesService {
     return `This action updates a #${id} category`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  public async removeOneById(id: string) {
+    let _id: Types.ObjectId = new Types.ObjectId(id)
+    let removed = await this.repository.removeOneById(_id);
+    
+    if (removed.modifiedCount > 0)
+      return true
+
+    return false
   }
 }
