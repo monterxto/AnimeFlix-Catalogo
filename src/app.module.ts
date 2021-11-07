@@ -6,7 +6,7 @@ import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://db:27017/local', {
+    MongooseModule.forRoot('mongodb://db/local', {
       user: "root",
       pass: "nest",
       authSource: 'admin'
