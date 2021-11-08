@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategoriesModule } from './categories/categories.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { CategoriesModule } from './categories/categories.module';
       authSource: 'admin',
     }),
     CategoriesModule,
+    GenresModule,
   ],
 })
 export class AppModule {}
