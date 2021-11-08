@@ -19,8 +19,9 @@ export class CategoriesService {
     return await this.repository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOneById(id: string) {
+    let _id: Types.ObjectId = new Types.ObjectId(id)
+    return await this.repository.findOneById(_id);
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
