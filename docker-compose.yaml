@@ -15,6 +15,9 @@ services:
       sh -c "npm i && npm run start:dev"
     links:
       - db
+    environment:
+      - USER_DB=root
+      - PASS_DB=nest
   
   db:
     image: mongo:5.0.3

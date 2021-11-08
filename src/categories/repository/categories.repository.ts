@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateCategoryDto } from '../dto/create-category.dto';
@@ -24,6 +24,7 @@ export class CategoriesRepository {
       _id: 1,
       name: 1,
       description: 1,
+      is_active: 1,
     });
   }
 
@@ -32,11 +33,12 @@ export class CategoriesRepository {
       _id: 1,
       name: 1,
       description: 1,
-    });;
+      is_active: 1,
+    });
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async updateById(_id: Types.ObjectId, updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoryModel.updateOne({ _id }, updateCategoryDto);
   }
 
   public async removeOneById(_id: Types.ObjectId): Promise<any> {
