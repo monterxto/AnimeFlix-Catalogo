@@ -15,8 +15,8 @@ export class CategoriesService {
     return await this.repository.create(createCategoryDto);
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  public async findAll() {
+    return await this.repository.findAll();
   }
 
   async findOneById(id: string) {

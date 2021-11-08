@@ -19,8 +19,12 @@ export class CategoriesRepository {
     return category;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  public async findAll() {
+    return await this.categoryModel.find({ isDeleted: false }).select({
+      _id: 1,
+      name: 1,
+      description: 1,
+    });
   }
 
   public async findOneById(_id: Types.ObjectId) {
