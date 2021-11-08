@@ -19,12 +19,16 @@ export class CategoriesRepository {
     return category;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  public async findAll() {
+    return await this.categoryModel.find({ isDeleted: false }).select({
+      _id: 1,
+      name: 1,
+      description: 1,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    return await this.categoryModel.find({ isDeleted: false });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
