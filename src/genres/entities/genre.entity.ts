@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CategoryDocument = Category & Document;
+export type GenreDocument = Genre & Document;
 
 @Schema()
-export class Category {
+export class Genre {
   @Prop({required: true})
   name: string;
-
-  @Prop({required: true})
-  description: string;
   
   @Prop({default: true})
   is_active: boolean;
@@ -21,4 +18,4 @@ export class Category {
   deleted_at: Date;
 }
 
-export const CategorySchema = SchemaFactory.createForClass(Category).set('timestamps', true);
+export const GenreSchema = SchemaFactory.createForClass(Genre).set('timestamps', true);
