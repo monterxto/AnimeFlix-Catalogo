@@ -9,18 +9,34 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    return await this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  async findAll(@Res() response: Response) {
+    let result = await this.categoriesService.findAll();
+    if (!result.length)
+      response
+        .status(HttpStatus.NO_CONTENT)
+        .send()
+    else
+      response
+        .status(HttpStatus.OK)
+        .send(result)
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  async findOneById(@Param('id') id: string, @Res() response: Response) {
+    let result = await this.categoriesService.findOneById(id);
+    if (!result)
+      response
+        .status(HttpStatus.NO_CONTENT)
+        .send()
+    else
+      response
+        .status(HttpStatus.OK)
+        .send(result)
   }
 
   @Patch(':id')
@@ -33,14 +49,16 @@ export class CategoriesController {
     let result = await this.categoriesService.removeOneById(id);
     if (result)
       response
+        .status(HttpStatus.OK)
         .send(
           {
             status: HttpStatus.OK,
             message: 'Item removido com sucesso!'
           }
         )
-    response
-    .status(HttpStatus.NO_CONTENT)
-    .send()
+    else
+      response
+        .status(HttpStatus.NO_CONTENT)
+        .send()
   }
 }

@@ -27,8 +27,12 @@ export class CategoriesRepository {
     });
   }
 
-  async findOne(id: number) {
-    return await this.categoryModel.find({ isDeleted: false });
+  public async findOneById(_id: Types.ObjectId) {
+    return await this.categoryModel.findOne({ _id, isDeleted: false }).select({
+      _id: 1,
+      name: 1,
+      description: 1,
+    });;
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
