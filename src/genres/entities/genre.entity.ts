@@ -5,17 +5,20 @@ export type GenreDocument = Genre & Document;
 
 @Schema()
 export class Genre {
-  @Prop({required: true})
+  @Prop({ required: true })
   name: string;
-  
-  @Prop({default: true})
-  is_active: boolean;
-    
-  @Prop({default: false})
-  isDeleted: boolean
 
-  @Prop({default: null})
-  deleted_at: Date;
+  @Prop({ default: true })
+  is_active: boolean;
+
+  @Prop({ default: false })
+  isDeleted?: boolean;
+
+  @Prop({ default: null })
+  deleted_at?: Date;
 }
 
-export const GenreSchema = SchemaFactory.createForClass(Genre).set('timestamps', true);
+export const GenreSchema = SchemaFactory.createForClass(Genre).set(
+  'timestamps',
+  true,
+);

@@ -21,4 +21,28 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect('Hello World!');
   });
+
+  // create a test for the /categories endpoint
+  it('/categories (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/categories')
+      .expect(200)
+      .expect([]);
+  });
+
+  // create a test for the /categories/:id endpoint
+  it('/categories/:id (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/categories/1')
+      .expect(200)
+      .expect({});
+  });
+
+  // create a test for the /categories/:id endpoint
+  it('/categories/:id (PATCH)', () => {
+    return request(app.getHttpServer())
+      .patch('/categories/1')
+      .expect(200)
+      .expect({});
+  });
 });

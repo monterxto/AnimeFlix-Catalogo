@@ -9,32 +9,37 @@ import {
   Res,
   HttpStatus,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Send } from 'express';
+import { UpdateQuery } from 'mongoose';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category, CategoryDocument } from './entities/category.entity';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  async create(@Body() createCategoryDto: CreateCategoryDto) {
-    return await this.categoriesService.create(createCategoryDto);
+  create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  async findAll(@Res() response: Response) {
-    let result = await this.categoriesService.findAll();
-    if (!result.length) response.status(HttpStatus.NO_CONTENT).send();
-    else response.status(HttpStatus.OK).send(result);
+  async findAll(@Res() response: Response): Promise<any> {
+    return response
+      .status(HttpStatus.OK)
+      .send(await this.categoriesService.findAll());
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: string, @Res() response: Response) {
-    let result = await this.categoriesService.findOneById(id);
-    if (!result) response.status(HttpStatus.NO_CONTENT).send();
-    else response.status(HttpStatus.OK).send(result);
+  async findOneById(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): Promise<any> {
+    return response
+      .status(HttpStatus.OK)
+      .send(await this.categoriesService.findOneById(id));
   }
 
   @Patch(':id')
@@ -42,24 +47,23 @@ export class CategoriesController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
     @Res() response: Response,
-  ) {
-    let result = await this.categoriesService.updateById(id, updateCategoryDto);
-    if (result)
-      response.status(HttpStatus.OK).send({
-        status: HttpStatus.OK,
-        message: 'Item atualizado com sucesso!',
-      });
-    else response.status(HttpStatus.NO_CONTENT).send();
+  ): Promise<UpdateQuery<CategoryDocument>> {
+    await this.categoriesService.updateById(id, updateCategoryDto);
+    return response.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Delete(':id')
-  async removeOneById(@Param('id') id: string, @Res() response: Response) {
-    let result = await this.categoriesService.removeOneById(id);
-    if (result)
-      response.status(HttpStatus.OK).send({
-        status: HttpStatus.OK,
-        message: 'Item removido com sucesso!',
-      });
-    else response.status(HttpStatus.NO_CONTENT).send();
+  async removeOneById(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): Promise<any> {
+    await this.categoriesService.removeOneById(id);
+    return response.status(HttpStatus.NO_CONTENT).send();
+  }
+
+  @Delete()
+  async removeAll(@Res() response: Response): Promise<any> {
+    await this.categoriesService.removeAll();
+    return response.status(HttpStatus.NO_CONTENT).send();
   }
 }
