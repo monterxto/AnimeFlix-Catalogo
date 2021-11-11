@@ -12,9 +12,7 @@ export class GenresRepository {
   ) {}
 
   public async create(createGenreDto: CreateGenreDto): Promise<Genre> {
-    let Genre = (
-      await this.genreModel.create(createGenreDto)
-    ).toObject();
+    let Genre = (await this.genreModel.create(createGenreDto)).toObject();
     delete Genre.__v;
     return Genre;
   }
@@ -44,6 +42,13 @@ export class GenresRepository {
       {
         _id,
       },
+      { isDeleted: true, deleted_at: new Date(), is_active: false },
+    );
+  }
+
+  public async removeAll(): Promise<any> {
+    return await this.genreModel.updateMany(
+      {},
       { isDeleted: true, deleted_at: new Date(), is_active: false },
     );
   }

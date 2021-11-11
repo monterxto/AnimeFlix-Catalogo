@@ -19,22 +19,25 @@ export class GenresController {
   constructor(private readonly genresService: GenresService) {}
 
   @Post()
-  async create(@Body() createGenreDto: CreateGenreDto) {
-    return await this.genresService.create(createGenreDto);
+  create(@Body() createGenreDto: CreateGenreDto): Promise<any> {
+    return this.genresService.create(createGenreDto);
   }
 
   @Get()
-  async findAll(@Res() response: Response) {
-    let result = await this.genresService.findAll();
-    if (!result.length) response.status(HttpStatus.NO_CONTENT).send();
-    else response.status(HttpStatus.OK).send(result);
+  async findAll(@Res() response: Response): Promise<any> {
+    return response
+      .status(HttpStatus.OK)
+      .send(await this.genresService.findAll());
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: string, @Res() response: Response) {
-    let result = await this.genresService.findOneById(id);
-    if (!result) response.status(HttpStatus.NO_CONTENT).send();
-    else response.status(HttpStatus.OK).send(result);
+  async findOneById(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): Promise<any> {
+    return response
+      .status(HttpStatus.OK)
+      .send(await this.genresService.findOneById(id));
   }
 
   @Patch(':id')
@@ -42,24 +45,24 @@ export class GenresController {
     @Param('id') id: string,
     @Body() updateGenreDto: UpdateGenreDto,
     @Res() response: Response,
-  ) {
-    let result = await this.genresService.updateById(id, updateGenreDto);
-    if (result)
-      response.status(HttpStatus.OK).send({
-        status: HttpStatus.OK,
-        message: 'Item atualizado com sucesso!',
-      });
-    else response.status(HttpStatus.NO_CONTENT).send();
+  ): Promise<any> {
+    await this.genresService.updateById(id, updateGenreDto);
+    return response.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Delete(':id')
-  async removeOneById(@Param('id') id: string, @Res() response: Response) {
-    let result = await this.genresService.removeOneById(id);
-    if (result)
-      response.status(HttpStatus.OK).send({
-        status: HttpStatus.OK,
-        message: 'Item removido com sucesso!',
-      });
-    else response.status(HttpStatus.NO_CONTENT).send();
+  async removeOneById(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): Promise<any> {
+    await this.genresService.removeOneById(id);
+    return response.status(HttpStatus.NO_CONTENT).send();
   }
+
+  @Delete()
+  async removeAll(@Res() response: Response): Promise<any> {
+    await this.genresService.removeAll();
+    return response.status(HttpStatus.NO_CONTENT).send();
+  }
+  s;
 }
