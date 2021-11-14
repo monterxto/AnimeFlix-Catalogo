@@ -25,7 +25,7 @@ export class VideosController {
   @Post()
   @UseInterceptors(FileInterceptor('videoFile'))
   async create(@UploadedFile() video: Express.Multer.File, @Body() createVideoDto: CreateVideoDto): Promise<any> {
-    return this.videosService.create(createVideoDto, video);
+    return this.videosService.create(createVideoDto);
   }
 
   @Get()

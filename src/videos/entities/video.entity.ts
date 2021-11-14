@@ -31,6 +31,9 @@ export class Video {
 
   @Prop({ default: null })
   deleted_at?: Date;
+
+  @Prop({ default: false })
+  opened?: boolean;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video).set(

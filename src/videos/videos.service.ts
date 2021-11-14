@@ -9,17 +9,17 @@ export class VideosService {
 
   constructor(private repository: VideosRepository) {}
   
-  public async create(createVideoDto: CreateVideoDto, video: any) {
+  public async create(createVideoDto: CreateVideoDto) {
     createVideoDto.categoriesId = createVideoDto.categoriesId.map(id => new Types.ObjectId(id));
     createVideoDto.genresId = createVideoDto.genresId.map(id => new Types.ObjectId(id));
     return await this.repository.create(createVideoDto);
   }
 
-  public async findAll() {
+  public async findAll(): Promise<any> {
     return await this.repository.findAll();
   }
 
-  public async findOneById(id: string) {
+  public async findOneById(id: string): Promise<any> {
     let _id: Types.ObjectId;
     try {
       _id = new Types.ObjectId(id);
@@ -41,7 +41,7 @@ export class VideosService {
     } catch (error) {
       throw new HttpException(`Invalid id`, HttpStatus.BAD_REQUEST);
     }
-    let video = await this.repository.findOneById(_id);
+    let video = await this.repository.updateById(_id, updateVideoDto);
     if (video) 
       return await this.repository.updateById(_id, updateVideoDto);
 
@@ -62,7 +62,4 @@ export class VideosService {
     return await this.repository.removeAll();
   }
 }
-
-  // //upload video
-  // public async uploadVideo(file: any) {
 
