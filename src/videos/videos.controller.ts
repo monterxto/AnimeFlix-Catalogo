@@ -8,26 +8,31 @@ import {
   Delete,
   Res,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { GenresService } from './genres.service';
-import { CreateGenreDto } from './dto/create-genre.dto';
-import { UpdateGenreDto } from './dto/update-genre.dto';
+import { VideosService } from './videos.service';
+import { CreateVideoDto } from './dto/create-video.dto';
+import { UpdateVideoDto } from './dto/update-video.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
-@Controller('genres')
-export class GenresController {
-  constructor(private readonly genresService: GenresService) {}
+@Controller('videos')
+export class VideosController {
+  constructor(private readonly videosService: VideosService) { }
 
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto): Promise<any> {
-    return this.genresService.create(createGenreDto);
+  @UseInterceptors(FileInterceptor('videoFile'))
+  async create(@UploadedFile() video: Express.Multer.File, @Body() createVideoDto: CreateVideoDto): Promise<any> {
+    return this.videosService.create(createVideoDto, video);
   }
 
   @Get()
   async findAll(@Res() response: Response): Promise<any> {
     return response
       .status(HttpStatus.OK)
-      .send(await this.genresService.findAll());
+      .send(await this.videosService.findAll());
   }
 
   @Get(':id')
@@ -37,16 +42,16 @@ export class GenresController {
   ): Promise<any> {
     return response
       .status(HttpStatus.OK)
-      .send(await this.genresService.findOneById(id));
+      .send(await this.videosService.findOneById(id));
   }
 
   @Patch(':id')
   async updateById(
     @Param('id') id: string,
-    @Body() updateGenreDto: UpdateGenreDto,
+    @Body() updateVideoDto: UpdateVideoDto,
     @Res() response: Response,
   ): Promise<any> {
-    await this.genresService.updateById(id, updateGenreDto);
+    await this.videosService.updateById(id, updateVideoDto);
     return response.status(HttpStatus.NO_CONTENT).send();
   }
 
@@ -55,13 +60,13 @@ export class GenresController {
     @Param('id') id: string,
     @Res() response: Response,
   ): Promise<any> {
-    await this.genresService.removeOneById(id);
+    await this.videosService.removeOneById(id);
     return response.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Delete()
   async removeAll(@Res() response: Response): Promise<any> {
-    await this.genresService.removeAll();
+    await this.videosService.removeAll();
     return response.status(HttpStatus.NO_CONTENT).send();
   }
 }

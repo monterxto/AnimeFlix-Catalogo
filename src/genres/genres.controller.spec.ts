@@ -17,6 +17,7 @@ describe('GenresController', () => {
     findOneById: jest.fn(),
     updateById: jest.fn(),
     removeOneById: jest.fn(),
+    removeAll: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -49,6 +50,7 @@ describe('GenresController', () => {
         {
           name: 'test',
           is_active: true,
+          categoriesId: [],
         },
       ];
 
@@ -64,10 +66,12 @@ describe('GenresController', () => {
       const body: CreateGenreDto = {
         name: 'Sou-um-nome',
         is_active: true,
+        categoriesId: [],
       };
       const resultService: Genre = {
         name: 'Sou-um-nome',
         is_active: true,
+        categoriesId: [],
       };
       jest
         .spyOn(service, 'create')
@@ -82,6 +86,7 @@ describe('GenresController', () => {
       const resultService: Genre = {
         name: 'Sou-um-nome',
         is_active: true,
+        categoriesId: [],
       };
       jest
         .spyOn(service, 'findOneById')

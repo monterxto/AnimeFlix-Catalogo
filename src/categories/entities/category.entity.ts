@@ -5,6 +5,9 @@ export type CategoryDocument = Category & Document;
 
 @Schema()
 export class Category {
+  
+  _id?: Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 
