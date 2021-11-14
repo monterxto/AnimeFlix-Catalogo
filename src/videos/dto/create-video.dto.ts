@@ -54,10 +54,9 @@ export class CreateVideoDto {
   genresId: any[]
 
   @IsOptional()
-  videoFile: any
+  videoFile?: any
+
   // thumb_file: string
   // banner_file: string
-  // trailer_file: string
-  // video_file: string
   // published: boolean
 }
