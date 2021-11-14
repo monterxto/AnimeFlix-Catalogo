@@ -58,6 +58,7 @@ describe('GenresService', () => {
       const genre: Genre = {
         name: 'Genre 1',
         is_active: true,
+        categoriesId: []
       };
       mockRepository.findOneById.mockReturnValue(genre);
       const result = await service.findOneById(id);
@@ -87,6 +88,7 @@ describe('GenresService', () => {
       const genre: Genre = {
         name: 'Genre 1',
         is_active: true,
+        categoriesId: []
       };
       mockRepository.create.mockReturnValue(genre);
       const result = await service.create(genre);

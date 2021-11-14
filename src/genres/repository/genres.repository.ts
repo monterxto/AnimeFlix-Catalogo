@@ -12,9 +12,9 @@ export class GenresRepository {
   ) {}
 
   public async create(createGenreDto: CreateGenreDto): Promise<Genre> {
-    let Genre = (await this.genreModel.create(createGenreDto)).toObject();
-    delete Genre.__v;
-    return Genre;
+    let genre = (await this.genreModel.create(createGenreDto)).toObject();
+    delete genre.__v;
+    return genre;
   }
 
   public async findAll() {
@@ -22,6 +22,7 @@ export class GenresRepository {
       _id: 1,
       name: 1,
       is_active: 1,
+      categoriesId: 1,
     });
   }
 

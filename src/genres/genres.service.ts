@@ -9,6 +9,9 @@ export class GenresService {
   constructor(private repository: GenresRepository) {}
 
   public async create(createGenreDto: CreateGenreDto): Promise<any> {
+    createGenreDto.categoriesId = createGenreDto.categoriesId.map(
+      id => new Types.ObjectId(id),
+    );
     return await this.repository.create(createGenreDto);
   }
 
