@@ -34,6 +34,18 @@ export class Video {
 
   @Prop({ default: false })
   opened?: boolean;
+  
+  @Prop({ default: null })
+  bannerFilePath?: string;
+
+  @Prop({ default: null })
+  videoFilePath?: string;
+
+  @Prop({ default: null })
+  thumbFilePath?: string;
+
+  @Prop({ default: null })
+  traillerFilePath?: string;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video).set(

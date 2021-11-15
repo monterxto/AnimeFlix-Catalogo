@@ -8,6 +8,7 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { UpdateWriteOpResult } from 'mongoose';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { FilesUpload } from '../@types/files_upload';
 
 describe('VideosController', () => {
   let controller: VideosController;
@@ -92,17 +93,19 @@ describe('VideosController', () => {
         .spyOn(service, 'create')
         .mockImplementation(async () => resultService);
 
-      const file: Express.Multer.File = {
-        fieldname: 'file',
-        originalname: 'video.mp4',
-        encoding: '7bit',
-        mimetype: 'video/mp4',
-        destination: '',
-        filename: 'video.mp4',
-        path: '',
-        buffer: Buffer.from('video'),
-        size: 0,
-        stream: null,
+      const file: FilesUpload = {
+        videoFile: [{
+          fieldname: 'file',
+          originalname: 'video.mp4',
+          encoding: '7bit',
+          mimetype: 'video/mp4',
+          destination: '',
+          filename: 'video.mp4',
+          path: '',
+          buffer: Buffer.from('video'),
+          size: 0,
+          stream: null,
+        }],
       };
       expect(await controller.create(file, body)).toBe(resultService);
     });
@@ -158,6 +161,7 @@ describe('VideosController', () => {
         id,
         bodyUpdate,
         httpMock.createResponse(),
+        null,
       );
       expect(response.statusCode).toBe(204);
     });

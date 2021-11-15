@@ -11,8 +11,8 @@ export class VideosRepository {
     @InjectModel(Video.name) private videoModel: Model<VideoDocument>,
   ) {}
 
-  public async create(createVideoDto: CreateVideoDto): Promise<Video> {
-    let video = (await this.videoModel.create(createVideoDto)).toObject();
+  public async create(createVideoDto: CreateVideoDto, paths: Object): Promise<Video> {
+    let video = (await this.videoModel.create({...createVideoDto, ...paths})).toObject();
     delete video.__v;
     return video;
   }
@@ -38,8 +38,8 @@ export class VideosRepository {
     });
   }
 
-  async updateById(_id: Types.ObjectId, updateVideoDto: UpdateVideoDto) {
-    return await this.videoModel.updateOne({ _id }, updateVideoDto);
+  async updateById(_id: Types.ObjectId, updateVideoDto: UpdateVideoDto, paths: Object) {
+    return await this.videoModel.updateOne({ _id }, {...updateVideoDto, ...paths});
   }
 
   public async removeOneById(_id: Types.ObjectId): Promise<any> {

@@ -10,22 +10,38 @@ import {
   HttpStatus,
   UseInterceptors,
   UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  AnyFilesInterceptor,
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { FilesUpload } from '../@types/files_upload';
 
 @Controller('videos')
 export class VideosController {
-  constructor(private readonly videosService: VideosService) { }
+  constructor(private readonly videosService: VideosService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('videoFile'))
-  async create(@UploadedFile() video: Express.Multer.File, @Body() createVideoDto: CreateVideoDto): Promise<any> {
-    return this.videosService.create(createVideoDto);
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'videoFile', maxCount: 1 },
+      { name: 'thumbFile', maxCount: 1 },
+      { name: 'bannerFile', maxCount: 1 },
+      { name: 'trailerFile', maxCount: 1 },
+    ]),
+  )
+  async create(
+    @UploadedFiles() files: FilesUpload,
+    @Body() createVideoDto: CreateVideoDto,
+  ): Promise<any> {
+    return this.videosService.create(createVideoDto, files);
   }
 
   @Get()
@@ -46,12 +62,21 @@ export class VideosController {
   }
 
   @Patch(':id')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'videoFile', maxCount: 1 },
+      { name: 'thumbFile', maxCount: 1 },
+      { name: 'bannerFile', maxCount: 1 },
+      { name: 'trailerFile', maxCount: 1 },
+    ]),
+  )
   async updateById(
     @Param('id') id: string,
     @Body() updateVideoDto: UpdateVideoDto,
     @Res() response: Response,
+    @UploadedFiles() files: FilesUpload,
   ): Promise<any> {
-    await this.videosService.updateById(id, updateVideoDto);
+    await this.videosService.updateById(id, updateVideoDto, files);
     return response.status(HttpStatus.NO_CONTENT).send();
   }
 

@@ -70,7 +70,7 @@ describe('VideosService', () => {
 
       mockRepository.create.mockReturnValue(video);
 
-      const result = await service.create(video);
+      const result = await service.create(video, null);
 
       expect(result).toEqual(video);
     });
@@ -136,8 +136,19 @@ describe('VideosService', () => {
         acknowledged: true,
         upsertedId: null,
       };
+      const resultFindOneById: Video = {
+        title: 'Sou-um-nome',
+        description: 'Sou-um-nome',
+        categoriesId: [],
+        genresId: [],
+        duration: 10,
+        rating: 'L',
+        yearLaunched: 2020,
+        opened: true,
+      };
+      mockRepository.findOneById.mockReturnValue(resultFindOneById);
       mockRepository.updateById.mockReturnValue(result);
-      const resultService = await service.updateById(id, bodyUpdate);
+      const resultService = await service.updateById(id, bodyUpdate, null);
       expect(resultService).toEqual(result);
     });
     it('should return a status code 404 if the video is not found', async () => {
@@ -150,7 +161,7 @@ describe('VideosService', () => {
       };
       mockRepository.updateById.mockReturnValue(result);
       try {
-        await service.updateById(id, {});
+        await service.updateById(id, {}, null);
       } catch (error) {
         expect(error.status).toBe(404);
         expect(error.response).toBe('Video not found');
@@ -158,7 +169,7 @@ describe('VideosService', () => {
     });
     it('should return a status code 400 if the id is invalid', async () => {
       try {
-        await service.updateById(idInvalid, {});
+        await service.updateById(idInvalid, {}, null);
       } catch (error) {
         expect(error.status).toBe(400);
         expect(error.response).toBe('Invalid id');

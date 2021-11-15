@@ -26,6 +26,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^9.0.1",
     "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/serve-static": "^2.2.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "mongoose": "^6.0.12",
