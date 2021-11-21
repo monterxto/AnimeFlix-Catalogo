@@ -23,6 +23,7 @@ export class GenresRepository {
       name: 1,
       is_active: 1,
       categoriesId: 1,
+      createdAt: 1
     });
   }
 
@@ -31,6 +32,8 @@ export class GenresRepository {
       _id: 1,
       name: 1,
       is_active: 1,
+      categoriesId: 1,
+      createdAt: 1
     });
   }
 

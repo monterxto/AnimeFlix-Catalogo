@@ -61,4 +61,17 @@ export class CategoriesRepository {
       { isDeleted: true, deleted_at: new Date(), is_active: false },
     );
   }
+
+  public async findAllByIds(ids: Types.ObjectId[]): Promise<Category[]> {
+    return await this.categoryModel.find({
+      _id: { $in: ids },
+      isDeleted: false,
+    }).select({
+      _id: 1,
+      name: 1,
+      description: 1,
+      is_active: 1,
+      createdAt: 1
+    });
+  }
 }
