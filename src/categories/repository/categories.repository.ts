@@ -25,6 +25,7 @@ export class CategoriesRepository {
       name: 1,
       description: 1,
       is_active: 1,
+      createdAt: 1
     });
   }
 
@@ -34,6 +35,7 @@ export class CategoriesRepository {
       name: 1,
       description: 1,
       is_active: 1,
+      createdAt: 1
     });
   }
 

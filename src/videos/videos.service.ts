@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { FilesUpload } from '../@types/files_upload';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { VideosRepository } from './repository/videos.repository';
@@ -60,6 +61,24 @@ export class VideosService {
 
   public async removeAll() {
     return await this.repository.removeAll();
+  }
+
+  private getPaths(files: FilesUpload) {
+    const paths = {
+      bannerFilePath: files?.bannerFile
+        ? files?.bannerFile[0]?.path?.replace('public', '')
+        : null,
+      videoFilePath: files?.videoFile
+        ? files?.videoFile[0]?.path?.replace('public', '')
+        : null,
+      thumbFilePath: files?.thumbFile
+        ? files?.thumbFile[0]?.path?.replace('public', '')
+        : null,
+      traillerFilePath: files?.traillerFile
+        ? files?.traillerFile[0]?.path?.replace('public', '')
+        : null,
+    };
+    return paths;
   }
 }
 
