@@ -14,7 +14,7 @@ export class Genre {
   @Prop({ default: true })
   is_active: boolean;
 
-  @Prop({ required: true })
+  @Prop({ required: true, ref: 'Category'})
   categoriesId: Types.ObjectId[];
 
   @Prop({ default: false })

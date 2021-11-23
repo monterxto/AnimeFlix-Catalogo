@@ -19,6 +19,10 @@ export class GenresService {
     return await this.repository.findAll();
   }
 
+  public async findAllWithCategories(): Promise<any> {
+    return await this.repository.findAllWithCategories();
+  }
+
   async findOneById(id: string): Promise<any> {
     let _id: Types.ObjectId;
     try {

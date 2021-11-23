@@ -62,14 +62,4 @@ export class CategoriesService {
   public async removeAll() {
     return await this.repository.removeAll();
   }
-
-  public async findAllByIds(ids: string[]): Promise<Category[]> {
-    let _ids: Types.ObjectId[];
-    try {
-      _ids = ids.map((id) => new Types.ObjectId(id));
-    } catch (error) {
-      throw new HttpException(`Invalid id`, HttpStatus.BAD_REQUEST);
-    }
-    return await this.repository.findAllByIds(_ids);
-  }
 }
