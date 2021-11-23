@@ -17,7 +17,7 @@ export class CategoriesService {
     return await this.repository.findAll();
   }
 
-  async findOneById(id: string): Promise<Category> {
+  public async findOneById(id: string): Promise<Category> {
     let _id: Types.ObjectId;
     try {
       _id = new Types.ObjectId(id);
@@ -33,7 +33,7 @@ export class CategoriesService {
     return category;
   }
 
-  async updateById(
+  public async updateById(
     id: string,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<UpdateWriteOpResult> {
