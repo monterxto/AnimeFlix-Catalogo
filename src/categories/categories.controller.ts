@@ -8,6 +8,8 @@ import {
   Delete,
   Res,
   HttpStatus,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { Response, Send } from 'express';
 import { UpdateQuery } from 'mongoose';
@@ -20,9 +22,12 @@ import { Category, CategoryDocument } from './entities/category.entity';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
-    return this.categoriesService.create(createCategoryDto);
+  async create(
+    @Body() createCategoryDto: CreateCategoryDto,
+  ): Promise<Category> {
+    return await this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
@@ -47,7 +52,7 @@ export class CategoriesController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
     @Res() response: Response,
-  ): Promise<UpdateQuery<CategoryDocument>> {
+  ): Promise<Response> {
     await this.categoriesService.updateById(id, updateCategoryDto);
     return response.status(HttpStatus.NO_CONTENT).send();
   }
@@ -56,13 +61,13 @@ export class CategoriesController {
   async removeOneById(
     @Param('id') id: string,
     @Res() response: Response,
-  ): Promise<any> {
+  ): Promise<Response> {
     await this.categoriesService.removeOneById(id);
     return response.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Delete()
-  async removeAll(@Res() response: Response): Promise<any> {
+  async removeAll(@Res() response: Response): Promise<Response> {
     await this.categoriesService.removeAll();
     return response.status(HttpStatus.NO_CONTENT).send();
   }

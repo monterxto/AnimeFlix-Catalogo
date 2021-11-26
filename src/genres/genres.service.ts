@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import { Genre } from './entities/genre.entity';
 import { GenresRepository } from './repository/genres.repository';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class GenresService {
     createGenreDto.categoriesId = createGenreDto.categoriesId.map(
       id => new Types.ObjectId(id),
     );
-    return await this.repository.create(createGenreDto);
+    return new Genre(await this.repository.create(createGenreDto));
   }
 
   public async findAll(): Promise<any> {

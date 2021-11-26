@@ -12,11 +12,7 @@ export class CategoriesRepository {
   ) {}
 
   public async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    let category = (
-      await this.categoryModel.create(createCategoryDto)
-    ).toObject();
-    delete category.__v;
-    return category;
+    return (await this.categoryModel.create(createCategoryDto)).toObject();
   }
 
   public async findAll(): Promise<Category[]> {
@@ -36,7 +32,7 @@ export class CategoriesRepository {
       description: 1,
       is_active: 1,
       createdAt: 1
-    });
+    }).lean();
   }
 
   async updateById(
