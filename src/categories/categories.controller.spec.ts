@@ -108,16 +108,9 @@ describe('CategoriesController', () => {
         description: 'Sou-uma-descrição',
         is_active: true,
       };
-      const resultService: UpdateWriteOpResult = {
-        matchedCount: 1,
-        modifiedCount: 1,
-        upsertedCount: 0,
-        acknowledged: true,
-        upsertedId: null,
-      };
       jest
         .spyOn(service, 'updateById')
-        .mockImplementation(async () => resultService);
+        .mockImplementation(async () => null);
       const response = await controller.updateById(
         id,
         bodyUpdate,
@@ -130,10 +123,6 @@ describe('CategoriesController', () => {
   describe('when making a delete request to delete a category by id', () => {
     it('should return a 204 status code if the category was successfully deleted', async () => {
       const id = '618afa3a587a29f7445d386f';
-      const resultService: boolean = true;
-      jest
-        .spyOn(service, 'removeOneById')
-        .mockImplementation(async () => resultService);
       const response = await controller.removeOneById(
         id,
         httpMock.createResponse(),

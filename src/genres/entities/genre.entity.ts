@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Exclude, Transform } from 'class-transformer';
 import { Document, Types } from 'mongoose';
 
 export type GenreDocument = Genre & Document;
@@ -6,6 +7,8 @@ export type GenreDocument = Genre & Document;
 @Schema()
 export class Genre {
 
+  @Transform(objectId => objectId.value.toString())
+  @Prop()
   _id?: Types.ObjectId;
 
   @Prop({ required: true })
@@ -22,6 +25,14 @@ export class Genre {
 
   @Prop({ default: null })
   deleted_at?: Date;
+  
+  @Exclude()
+  @Prop()
+  __v?: number;
+  
+  constructor(partial: Partial<Genre>) {
+    Object.assign(this, partial);
+  }
 }
 
 export const GenreSchema = SchemaFactory.createForClass(Genre).set(
