@@ -21,19 +21,34 @@ export class GenresRepository {
       name: 1,
       is_active: 1,
       categoriesId: 1,
-      createdAt: 1
-    })
+      createdAt: 1,
+    });
   }
 
-  
   public async findAllWithCategories() {
-    return await this.genreModel.find({ isDeleted: false }).select({
-      _id: 1,
-      name: 1,
-      is_active: 1,
-      categoriesId: 1,
-      createdAt: 1
-    }).populate('categoriesId', '_id name');
+    return await this.genreModel
+      .find({ isDeleted: false })
+      .select({
+        _id: 1,
+        name: 1,
+        is_active: 1,
+        categoriesId: 1,
+        createdAt: 1,
+      })
+      .populate('categoriesId', '_id name');
+  }
+
+  public async findOneByIdWithCategories(_id: Types.ObjectId) {
+    return await this.genreModel
+      .findOne({ _id })
+      .select({
+        _id: 1,
+        name: 1,
+        is_active: 1,
+        categoriesId: 1,
+        createdAt: 1,
+      })
+      .populate('categoriesId', '_id name');
   }
 
   public async findOneById(_id: Types.ObjectId) {
@@ -42,7 +57,7 @@ export class GenresRepository {
       name: 1,
       is_active: 1,
       categoriesId: 1,
-      createdAt: 1
+      createdAt: 1,
     });
   }
 

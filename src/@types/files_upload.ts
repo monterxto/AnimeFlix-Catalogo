@@ -1,6 +1,6 @@
 export type FilesUpload = {
-  videoFile?: Express.Multer.File[],
-  thumbFile?: Express.Multer.File[]
-  bannerFile?: Express.Multer.File[]
-  traillerFile?: Express.Multer.File[]
-}
+  video?: Express.Multer.File[];
+  thumbnail?: Express.Multer.File[];
+  trailer?: Express.Multer.File[];
+  banner?: Express.Multer.File[];
+};

@@ -6,9 +6,7 @@ export type CategoryDocument = Category & Document;
 
 @Schema()
 export class Category {
-  
-  @Transform(objectId => objectId.value.toString())
-  @Prop()
+  @Transform((objectId) => objectId.value.toString())
   _id?: Types.ObjectId;
 
   @Prop({ required: true })
@@ -29,7 +27,6 @@ export class Category {
   deleted_at?: Date;
 
   @Exclude()
-  @Prop()
   __v?: number;
 
   constructor(partial: Partial<Category>) {

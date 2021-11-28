@@ -6,9 +6,7 @@ export type GenreDocument = Genre & Document;
 
 @Schema()
 export class Genre {
-
-  @Transform(objectId => objectId.value.toString())
-  @Prop()
+  @Transform((objectId) => objectId.value.toString())
   _id?: Types.ObjectId;
 
   @Prop({ required: true })
@@ -17,7 +15,7 @@ export class Genre {
   @Prop({ default: true })
   is_active: boolean;
 
-  @Prop({ required: true, ref: 'Category'})
+  @Prop({ required: true, ref: 'Category' })
   categoriesId: Types.ObjectId[];
 
   @Prop({ default: false })
@@ -25,11 +23,10 @@ export class Genre {
 
   @Prop({ default: null })
   deleted_at?: Date;
-  
+
   @Exclude()
-  @Prop()
   __v?: number;
-  
+
   constructor(partial: Partial<Genre>) {
     Object.assign(this, partial);
   }
