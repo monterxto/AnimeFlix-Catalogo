@@ -11,7 +11,7 @@ export class GenresService {
 
   public async create(createGenreDto: CreateGenreDto): Promise<any> {
     createGenreDto.categoriesId = createGenreDto.categoriesId.map(
-      id => new Types.ObjectId(id),
+      (id) => new Types.ObjectId(id),
     );
     return new Genre(await this.repository.create(createGenreDto));
   }
@@ -24,13 +24,13 @@ export class GenresService {
     return await this.repository.findAllWithCategories();
   }
 
+  public async findOneByIdWithCategories(id: string): Promise<any> {
+    let _id: Types.ObjectId = this.idToObjectId(id);
+    return await this.repository.findOneByIdWithCategories(_id);
+  }
+
   async findOneById(id: string): Promise<any> {
-    let _id: Types.ObjectId;
-    try {
-      _id = new Types.ObjectId(id);
-    } catch (error) {
-      throw new HttpException(`Invalid id`, HttpStatus.BAD_REQUEST);
-    }
+    let _id: Types.ObjectId = this.idToObjectId(id);
     let genre = await this.repository.findOneById(_id);
     if (!genre) {
       throw new HttpException(`Genre not found`, HttpStatus.NOT_FOUND);
@@ -39,12 +39,10 @@ export class GenresService {
   }
 
   async updateById(id: string, updateGenreDto: UpdateGenreDto): Promise<any> {
-    let _id: Types.ObjectId;
-    try {
-      _id = new Types.ObjectId(id);
-    } catch (error) {
-      throw new HttpException(`Invalid id`, HttpStatus.BAD_REQUEST);
-    }
+    let _id: Types.ObjectId = this.idToObjectId(id);
+    updateGenreDto.categoriesId = updateGenreDto.categoriesId.map(
+      (id) => new Types.ObjectId(id),
+    );
     let updated = await this.repository.updateById(_id, updateGenreDto);
     if (!updated?.matchedCount)
       throw new HttpException(`Genre not found`, HttpStatus.NOT_FOUND);
@@ -52,16 +50,21 @@ export class GenresService {
   }
 
   public async removeOneById(id: string) {
+    let _id: Types.ObjectId = this.idToObjectId(id);
+    return await this.repository.removeOneById(_id);
+  }
+
+  public async removeAll() {
+    return await this.repository.removeAll();
+  }
+
+  private idToObjectId(id: string): Types.ObjectId {
     let _id: Types.ObjectId;
     try {
       _id = new Types.ObjectId(id);
     } catch (error) {
       throw new HttpException(`Invalid id`, HttpStatus.BAD_REQUEST);
     }
-    return await this.repository.removeOneById(_id);
-  }
-
-  public async removeAll() {
-    return await this.repository.removeAll();
+    return _id;
   }
 }

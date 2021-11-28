@@ -12,9 +12,7 @@ export class VideosRepository {
   ) {}
 
   public async create(createVideoDto: CreateVideoDto): Promise<Video> {
-    let video = (await this.videoModel.create(createVideoDto)).toObject();
-    delete video.__v;
-    return video;
+    return (await this.videoModel.create(createVideoDto)).toObject();
   }
 
   public async findAll() {

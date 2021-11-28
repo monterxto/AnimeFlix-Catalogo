@@ -30,12 +30,21 @@ export class GenresController {
       .send(await this.genresService.findAll());
   }
 
-  
   @Get('withcategories')
   async findAllWithCategories(@Res() response: Response): Promise<any> {
     return response
       .status(HttpStatus.OK)
       .send(await this.genresService.findAllWithCategories());
+  }
+
+  @Get('withcategories/:id')
+  async findOneByIdWithCategories(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): Promise<any> {
+    return response
+      .status(HttpStatus.OK)
+      .send(await this.genresService.findOneByIdWithCategories(id));
   }
 
   @Get(':id')
