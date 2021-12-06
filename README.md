@@ -1,6 +1,12 @@
+#Em Construção
+
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este é o micro serviço de catálogo do projeto **AnimeFlix**.
+
+## Sobre o AnimeFlix
+
+Este é um projeto open-source com o objetivo de ser um portfólio utilizando o que eu venho estudando a um bom tempo, como Arquitetura de micros serviços, Message Brokers (Apache Kafka), Kubernetes e conteinerização, Testes unitários e Testes ponta a ponta, Modelagem de software DDD entre outros.
 
 ## Installation
 
@@ -26,24 +32,4 @@ $ npm run start:prod
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
